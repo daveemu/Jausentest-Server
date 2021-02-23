@@ -1,17 +1,13 @@
-﻿using Jausentest.Domain.Entities;
-using System;
+﻿using Jausentest.Core.Models;
+using Jausentest.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Jausentest.Domain.Interfaces
+namespace Jausentest.Core.Services
 {
-    public interface IBeislRepository
+    public interface IBeislService
     {
-
         public Task<IEnumerable<BeislEntity>> GetBeisls();
         public Task<BeislEntity> AddBeisl(BeislEntity b);
-
     }
 }

@@ -16,15 +16,6 @@ namespace Jausentest.Infrastructure
 
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    base.OnConfiguring(optionsBuilder);
-        //    optionsBuilder.UseMySql("server=localhost;user=root;password=geb1305,,;database=jause",
-        //        new MySqlServerVersion(new Version(8, 0, 23)),
-        //        mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
-        //        .EnableSensitiveDataLogging()
-        //        .EnableDetailedErrors();
-        //}
 
     }
 }

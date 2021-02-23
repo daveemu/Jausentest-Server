@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Jausentest.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
@@ -10,7 +11,7 @@ namespace Jausentest.Infrastructure
     public static class DependencyInjection
     {
 
-        public static void InjectDependencies(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection InjectDependencies(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddDbContext<JausentestContext>(
@@ -25,6 +26,8 @@ namespace Jausentest.Infrastructure
                 .EnableDetailedErrors()
 
             );
+
+            return services;
         }
 
 

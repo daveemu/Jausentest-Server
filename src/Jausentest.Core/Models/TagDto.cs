@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jausentest.Domain.Interfaces
+namespace Jausentest.Core.Models
 {
-    interface IRepository
+    public class TagDto
     {
-
-
-
+        public long Id { get; set; }
+        public string Name { get; set; }
     }
 }

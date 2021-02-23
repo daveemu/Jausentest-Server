@@ -1,4 +1,7 @@
+using Jausentest.Core.Services;
+using Jausentest.Domain.Interfaces;
 using Jausentest.Infrastructure;
+using Jausentest.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +25,9 @@ namespace Jausentest.Web
         {
 
             services.InjectDependencies(Configuration);
+
+            services.AddScoped<IBeislService, BeislService>();
+            services.AddScoped<IBeislRepository, BeislRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

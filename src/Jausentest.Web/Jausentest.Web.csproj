@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jausentest.Core\Jausentest.Core.csproj" />
     <ProjectReference Include="..\Jausentest.Infrastructure\Jausentest.Infrastructure.csproj" />
   </ItemGroup>
 

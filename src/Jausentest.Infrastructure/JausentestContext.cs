@@ -11,6 +11,20 @@ namespace Jausentest.Infrastructure
         public DbSet<BeislEntity> Beisl { get; set; }
         public DbSet<TagEntity> Tags { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder
+                .Entity<BeislEntity>()
+                .HasMany(b => b.Tags)
+                .WithMany(t => t.Beisl)
+                .UsingEntity(x => x.ToTable("BeislTags"));
+
+            modelBuilder
+                .Entity<TagEntity>()
+                .HasKey(t => t.Name);
+        }
+
         public JausentestContext(DbContextOptions<JausentestContext> options) : base(options)
         {
 

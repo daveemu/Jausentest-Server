@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Jausentest.Infrastructure.Migrations
 {
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,35 +27,53 @@ namespace Jausentest.Infrastructure.Migrations
                 name: "Tags",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    BeislEntityId = table.Column<long>(type: "bigint", nullable: true)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.PrimaryKey("PK_Tags", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BeislTags",
+                columns: table => new
+                {
+                    BeislId = table.Column<long>(type: "bigint", nullable: false),
+                    TagsName = table.Column<string>(type: "varchar(255)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BeislTags", x => new { x.BeislId, x.TagsName });
                     table.ForeignKey(
-                        name: "FK_Tags_Beisl_BeislEntityId",
-                        column: x => x.BeislEntityId,
+                        name: "FK_BeislTags_Beisl_BeislId",
+                        column: x => x.BeislId,
                         principalTable: "Beisl",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BeislTags_Tags_TagsName",
+                        column: x => x.TagsName,
+                        principalTable: "Tags",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tags_BeislEntityId",
-                table: "Tags",
-                column: "BeislEntityId");
+                name: "IX_BeislTags_TagsName",
+                table: "BeislTags",
+                column: "TagsName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "BeislTags");
 
             migrationBuilder.DropTable(
                 name: "Beisl");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
         }
     }
 }

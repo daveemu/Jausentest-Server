@@ -40,7 +40,7 @@ namespace Jausentest.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddBeisl([FromBody] BeislEntity b)
+        public async Task<ActionResult> AddBeisl([FromBody] BeislDto b)
         {
             var _b = await BeislService.AddBeisl(b);
             return Created($"{HttpContext.Request.Path}/{_b.Id}", _b);

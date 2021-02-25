@@ -10,8 +10,8 @@ namespace Jausentest.Domain.Interfaces
     public interface IBeislRepository
     {
 
-        public Task<IEnumerable<BeislEntity>> GetBeisls();
-        public Task<BeislEntity> AddBeisl(BeislEntity b);
+        public Task<IEnumerable<BeislEntity>> GetAll();
+        public Task<BeislEntity> AddOrUpdateAsync(BeislEntity beisl);
 
     }
 }

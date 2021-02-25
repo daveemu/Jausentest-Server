@@ -7,7 +7,7 @@ namespace Jausentest.Core.Services
 {
     public interface IBeislService
     {
-        public Task<IEnumerable<BeislEntity>> GetBeisls();
-        public Task<BeislEntity> AddBeisl(BeislEntity b);
+        public Task<IEnumerable<BeislDto>> GetBeisls();
+        public Task<BeislDto> AddBeisl(BeislDto b);
     }
 }

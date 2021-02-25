@@ -1,3 +1,4 @@
+using Jausentest.Core.Config;
 using Jausentest.Core.Services;
 using Jausentest.Domain.Interfaces;
 using Jausentest.Infrastructure;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft;
 
 namespace Jausentest.Web
 {
@@ -28,8 +30,13 @@ namespace Jausentest.Web
 
             services.AddScoped<IBeislService, BeislService>();
             services.AddScoped<IBeislRepository, BeislRepository>();
+            services.AddAutoMapper(options => options.AddProfile<AutomapperConfig>());
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllers();
+                //.AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
+            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Jausentest.Api", Version = "v1" });

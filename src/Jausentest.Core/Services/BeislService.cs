@@ -22,16 +22,26 @@ namespace Jausentest.Core.Services
         }
 
         
-        public async Task<BeislDto> AddBeisl(BeislDto b)
+        public async Task<BeislDto> AddBeislAsync(BeislDto b)
         {
             var _b = await _beislRepository.AddOrUpdateAsync(_mapper.Map<BeislDto, BeislEntity>(b));
             return _mapper.Map<BeislEntity, BeislDto>(_b);
         }
 
-        public async Task<IEnumerable<BeislDto>> GetBeisls()
+        public async Task<BeislDto> GetBeislByIdAsync(long beislId)
         {
-            return _mapper.Map<IEnumerable<BeislEntity>, IEnumerable<BeislDto>>(await _beislRepository.GetAll());
+            return _mapper.Map<BeislEntity, BeislDto>(await _beislRepository.GetBeislByIdAsync(beislId));
         }
 
+        public async Task<IEnumerable<BeislDto>> GetBeislsAsync()
+        {
+            return _mapper.Map<IEnumerable<BeislEntity>, IEnumerable<BeislDto>>(await _beislRepository.GetAllAsync());
+        }
+
+        public async Task<IEnumerable<TagDto>> GetTagsForBeislIdAsync(long beislId)
+        {
+
+            return _mapper.Map<IEnumerable<TagEntity>, IEnumerable<TagDto>>(await _beislRepository.GetTagsForBeislIdAsync(beislId));
+        }
     }
 }

@@ -7,7 +7,11 @@ namespace Jausentest.Core.Services
 {
     public interface IBeislService
     {
-        public Task<IEnumerable<BeislDto>> GetBeisls();
-        public Task<BeislDto> AddBeisl(BeislDto b);
+        public Task<IEnumerable<BeislDto>> GetBeislsAsync();
+        public Task<BeislDto> AddBeislAsync(BeislDto b);
+        public Task<BeislDto> GetBeislByIdAsync(long beislId);
+        public Task<IEnumerable<TagDto>> GetTagsForBeislIdAsync(long beislId);
+
+
     }
 }

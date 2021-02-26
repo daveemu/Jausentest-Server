@@ -14,35 +14,71 @@ namespace Jausentest.Web.Controllers
     [ApiController]
     public class BeislController : ControllerBase
     {
-
+        private readonly IBeislService _beislService;
         public BeislController(IBeislService beislService)
         {
-            BeislService = beislService;
+            _beislService = beislService;
         }
-
-        public IBeislService BeislService { get; }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BeislDto>>> GetBeisl()
         {
-            var result = await BeislService.GetBeisls();
+            var result = await _beislService.GetBeislsAsync();
 
             if (result == null)
                 return NotFound(new ProblemDetails()
                 {
                     Title = "No beisl found",
-                    Detail = "Can't find any stored Beisl information.",
-                    Status = 404,
-                    Type = "https://http.cat/404"
+                    Detail = "Can't find any stored Beisl",
+                    Status = 404
                 });
 
             return Ok(result);
         }
 
+
+        [HttpGet("{beislId}")]
+        public async Task<ActionResult<BeislDto>> GetBeislById(long beislId)
+        {
+            var result = await _beislService.GetBeislByIdAsync(beislId);
+
+            if(result == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("{beislId}/tags")]
+        public async Task<ActionResult<IEnumerable<TagDto>>> GetTagsForBeislIdAsync(long beislId)
+        {
+            var result = await _beislService.GetTagsForBeislIdAsync(beislId);
+
+            if (result == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Ok(result);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddBeisl([FromBody] BeislDto b)
         {
-            var _b = await BeislService.AddBeisl(b);
+            var _b = await _beislService.AddBeislAsync(b);
             return Created($"{HttpContext.Request.Path}/{_b.Id}", _b);
         }
 

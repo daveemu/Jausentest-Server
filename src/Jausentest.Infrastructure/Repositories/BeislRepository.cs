@@ -93,13 +93,22 @@ namespace Jausentest.Infrastructure.Repositories
             return beisl;
         }
 
-        public async Task<IEnumerable<BeislEntity>> GetAll()
+        public async Task<IEnumerable<BeislEntity>> GetAllAsync()
         {
             return await _jausentestContext.Beisl.Include(b => b.Tags).ToListAsync();
         }
 
+        public async Task<BeislEntity> GetBeislByIdAsync(long beislId)
+        {
+            return await _jausentestContext.Beisl.FindAsync(beislId);
+        }
 
-
-
+        public async Task<IEnumerable<TagEntity>> GetTagsForBeislIdAsync(long beislId)
+        {
+            return (await _jausentestContext.Beisl
+                .Include(b => b.Tags)
+                .FirstOrDefaultAsync(_b => _b.Id == beislId))
+                .Tags;
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace Jausentest.Web.Controllers
         {
             var result = await _beislService.GetBeislByIdAsync(beislId);
 
-            if(result == null)
+            if (result == null)
             {
                 return NotFound(new ProblemDetails()
                 {
@@ -76,7 +76,7 @@ namespace Jausentest.Web.Controllers
         }
 
         [HttpPost("{beislId}/tags")]
-        public async Task<ActionResult> AddTagToBeisl([FromBody] TagDto tag, long beislId)
+        public async Task<ActionResult<BeislDto>> AddTagToBeisl([FromBody] TagDto tag, long beislId)
         {
             var _beisl = await _beislService.AddTagToBeislAsync(tag, beislId);
 
@@ -91,6 +91,24 @@ namespace Jausentest.Web.Controllers
             }
 
             return Created($"{HttpContext.Request.Path}/{beislId}", _beisl);
+        }
+
+        [HttpDelete("{beislId}/tags")]
+        public async Task<ActionResult<BeislDto>> DeleteTagFromBeisl([FromBody] TagDto tag, long beislId)
+        {
+            var _beisl = await _beislService.DeleteTagFromBeislAsync(tag, beislId);
+
+            if (_beisl == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Ok(_beisl);
         }
 
         [HttpPut]

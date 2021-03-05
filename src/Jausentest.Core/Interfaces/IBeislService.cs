@@ -13,6 +13,8 @@ namespace Jausentest.Core.Services
         public Task<BeislDto> GetBeislByIdAsync(long beislId);
         public Task<IEnumerable<TagDto>> GetTagsForBeislIdAsync(long beislId);
         public Task<BeislDto> AddTagToBeislAsync(TagDto tag, long beislId);
+        public Task<BeislDto> DeleteTagFromBeislAsync(TagDto tag, long beislId);
+        
 
 
     }

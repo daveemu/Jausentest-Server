@@ -16,5 +16,7 @@ namespace Jausentest.Domain.Interfaces
         public Task<IEnumerable<TagEntity>> GetTagsForBeislIdAsync(long beislId);
         public Task<BeislEntity> AddBeislAsync(BeislEntity beisl);
         public Task<BeislEntity> AddTagToBeislAsync(TagEntity tag, long beislId);
+        public Task<BeislEntity> DeleteTagFromBeislAsync(TagEntity tag, long beislId);
+        
     }
 }

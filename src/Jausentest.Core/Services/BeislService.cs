@@ -39,6 +39,12 @@ namespace Jausentest.Core.Services
             return _mapper.Map<BeislEntity, BeislDto>(_beisl);
         }
 
+        public async Task<BeislDto> DeleteTagFromBeislAsync(TagDto tag, long beislId)
+        {
+            var _beisl = await _beislRepository.DeleteTagFromBeislAsync(_mapper.Map<TagDto, TagEntity>(tag), beislId);
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
+        }
+
         public async Task<BeislDto> GetBeislByIdAsync(long beislId)
         {
             return _mapper.Map<BeislEntity, BeislDto>(await _beislRepository.GetBeislByIdAsync(beislId));

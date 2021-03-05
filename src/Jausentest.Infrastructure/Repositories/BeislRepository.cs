@@ -131,6 +131,29 @@ namespace Jausentest.Infrastructure.Repositories
             return _beisl;
         }
 
+        public async Task<BeislEntity> DeleteTagFromBeislAsync(TagEntity tag, long beislId)
+        {
+            var _beisl = await _jausentestContext
+                        .Beisl
+                        .Include(b => b.Tags)
+                        .FirstOrDefaultAsync(b => b.Id == beislId);
+
+            if (_beisl == null)
+                return null;
+
+            var _tag = await _jausentestContext
+                       .Tags
+                       .FirstOrDefaultAsync(t => t.Name == tag.Name);
+
+            if(_beisl.Tags.Contains(_tag))
+            {
+                _beisl.Tags.Remove(_tag);
+                await _jausentestContext.SaveChangesAsync();
+            }
+
+            return _beisl;
+        }
+
         public async Task<IEnumerable<BeislEntity>> GetAllAsync()
         {
             return await _jausentestContext.Beisl.Include(b => b.Tags).ToListAsync();

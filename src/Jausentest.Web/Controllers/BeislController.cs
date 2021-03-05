@@ -75,11 +75,36 @@ namespace Jausentest.Web.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddBeisl([FromBody] BeislDto b)
+        [HttpPost("{beislId}/tags")]
+        public async Task<ActionResult> AddTagToBeisl([FromBody] TagDto tag, long beislId)
         {
-            var _b = await _beislService.AddBeislAsync(b);
-            return Created($"{HttpContext.Request.Path}/{_b.Id}", _b);
+            var _beisl = await _beislService.AddTagToBeislAsync(tag, beislId);
+
+            if (_beisl == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Created($"{HttpContext.Request.Path}/{beislId}", _beisl);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> AddOrUpdateBeisl([FromBody] BeislDto beisl)
+        {
+            var _beisl = await _beislService.AddOrUpdateBeislAsync(beisl);
+            return Created($"{HttpContext.Request.Path}/{_beisl.Id}", _beisl);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddBeisl([FromBody] BeislDto beisl)
+        {
+            var _beisl = await _beislService.AddBeislAsync(beisl);
+            return Created($"{HttpContext.Request.Path}/{_beisl.Id}", _beisl);
         }
 
 

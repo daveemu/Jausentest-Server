@@ -21,11 +21,22 @@ namespace Jausentest.Core.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        
-        public async Task<BeislDto> AddBeislAsync(BeislDto b)
+        public async Task<BeislDto> AddBeislAsync(BeislDto beisl)
         {
-            var _b = await _beislRepository.AddOrUpdateAsync(_mapper.Map<BeislDto, BeislEntity>(b));
-            return _mapper.Map<BeislEntity, BeislDto>(_b);
+            var _beisl = await _beislRepository.AddBeislAsync(_mapper.Map<BeislDto, BeislEntity>(beisl));
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
+        }
+
+        public async Task<BeislDto> AddOrUpdateBeislAsync(BeislDto beisl)
+        {
+            var _beisl = await _beislRepository.AddOrUpdateAsync(_mapper.Map<BeislDto, BeislEntity>(beisl));
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
+        }
+
+        public async Task<BeislDto> AddTagToBeislAsync(TagDto tag, long beislId)
+        {
+            var _beisl = await _beislRepository.AddTagToBeislAsync(_mapper.Map<TagDto, TagEntity>(tag), beislId);
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
         }
 
         public async Task<BeislDto> GetBeislByIdAsync(long beislId)

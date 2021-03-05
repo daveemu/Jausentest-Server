@@ -17,6 +17,16 @@ namespace Jausentest.Infrastructure.Repositories
             _jausentestContext = jausentestContext ?? throw new ArgumentNullException(nameof(jausentestContext));
         }
 
+
+        public async Task<BeislEntity> AddBeislAsync(BeislEntity beisl)
+        {
+            beisl.Id = 0;
+            beisl.Tags = null;
+            var addedBeisl = (_jausentestContext.Beisl.Add(beisl)).Entity;
+            await _jausentestContext.SaveChangesAsync();
+            return addedBeisl;
+        }
+
         public async Task<BeislEntity> AddOrUpdateAsync(BeislEntity beisl)
         {
 
@@ -91,6 +101,34 @@ namespace Jausentest.Infrastructure.Repositories
             await _jausentestContext.SaveChangesAsync();
 
             return beisl;
+        }
+
+
+        
+        public async Task<BeislEntity> AddTagToBeislAsync(TagEntity tag, long beislId)
+        {
+            var _beisl = await _jausentestContext
+                        .Beisl
+                        .Include(b => b.Tags)
+                        .FirstOrDefaultAsync(b => b.Id == beislId);
+
+            if (_beisl == null)
+                return null;
+
+            if(!_beisl.Tags.Contains(tag))
+            {
+                var _tag = await _jausentestContext.Tags.FirstOrDefaultAsync(t => t.Name == tag.Name);
+                
+                if(_tag == null)
+                {
+                    _tag = (await _jausentestContext.AddAsync(tag)).Entity;
+                } 
+
+                _beisl.Tags.Add(_tag);
+                await _jausentestContext.SaveChangesAsync();
+            } 
+
+            return _beisl;
         }
 
         public async Task<IEnumerable<BeislEntity>> GetAllAsync()

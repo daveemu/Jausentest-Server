@@ -12,7 +12,7 @@ namespace Jausentest.Core.Models
         public string Name { get; set; }
         public string Owner { get; set; }
         public string Address { get; set; }
-        public List<TagDto> Tags { get; set; }
+        public HashSet<TagDto> Tags { get; set; }
         public double Rating { get; set; }
 
 

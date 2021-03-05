@@ -5,7 +5,7 @@ namespace Jausentest.Domain.Entities
     public class TagEntity
     {
         public string Name { get; set; }
-        public List<BeislEntity> Beisl { get; set; }
+        public HashSet<BeislEntity> Beisl { get; set; }
 
         public override bool Equals(object obj)
         {

@@ -34,6 +34,7 @@ namespace Jausentest.Infrastructure.Repositories
             //check if beisl is alreay in database
             var existingBeisl = await _jausentestContext.Beisl
                 .Include(b => b.Tags)
+                .Include(b => b.Address)
                 .FirstOrDefaultAsync(_b => _b.Id == beisl.Id);
 
             
@@ -59,6 +60,7 @@ namespace Jausentest.Infrastructure.Repositories
             {
                 //update values of our existingBeisl
                 _jausentestContext.Entry(existingBeisl).CurrentValues.SetValues(beisl);
+                _jausentestContext.Entry(existingBeisl.Address).CurrentValues.SetValues(beisl.Address);
                 
                 //we have to check each appended tag if already in database
                 foreach (var tag in beisl.Tags)

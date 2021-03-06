@@ -18,7 +18,8 @@ namespace Jausentest.Infrastructure
                 .Entity<BeislEntity>()
                 .HasMany(b => b.Tags)
                 .WithMany(t => t.Beisl)
-                .UsingEntity(x => x.ToTable("BeislTags"));
+                .UsingEntity(x => x.ToTable("BeislTags"))
+                .OwnsOne(a => a.Address);
 
             modelBuilder
                 .Entity<TagEntity>()

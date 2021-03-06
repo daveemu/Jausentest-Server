@@ -11,7 +11,7 @@ namespace Jausentest.Core.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
-        public string Address { get; set; }
+        public AddressDto Address { get; set; }
         public HashSet<TagDto> Tags { get; set; }
         public double Rating { get; set; }
 

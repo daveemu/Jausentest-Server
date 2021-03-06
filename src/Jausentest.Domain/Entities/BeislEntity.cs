@@ -11,7 +11,7 @@ namespace Jausentest.Domain.Entities
         public long Id { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
-        public string Address { get; set; }
+        public AddressEntity Address { get; set; }
         public double Rating { get; set; }
         public HashSet<TagEntity> Tags { get; set; }
 

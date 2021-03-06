@@ -18,6 +18,8 @@ namespace Jausentest.Core.Config
             CreateMap<TagEntity, TagDto>();
             CreateMap<BeislDto, BeislEntity>();
             CreateMap<TagDto, TagEntity>();
+            CreateMap<AddressEntity, AddressDto>();
+            CreateMap<AddressDto, AddressEntity>(); 
         }
 
     }

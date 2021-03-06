@@ -21,23 +21,17 @@ namespace Jausentest.Web.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<BeislDto>>> GetBeisl()
         {
             var result = await _beislService.GetBeislsAsync();
-
-            if (result == null)
-                return NotFound(new ProblemDetails()
-                {
-                    Title = "No beisl found",
-                    Detail = "Can't find any stored Beisl",
-                    Status = 404
-                });
-
             return Ok(result);
         }
 
 
         [HttpGet("{beislId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BeislDto>> GetBeislById(long beislId)
         {
             var result = await _beislService.GetBeislByIdAsync(beislId);
@@ -57,6 +51,8 @@ namespace Jausentest.Web.Controllers
 
 
         [HttpGet("{beislId}/tags")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<TagDto>>> GetTagsForBeislIdAsync(long beislId)
         {
             var result = await _beislService.GetTagsForBeislIdAsync(beislId);
@@ -76,6 +72,8 @@ namespace Jausentest.Web.Controllers
         }
 
         [HttpPost("{beislId}/tags")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BeislDto>> AddTagToBeisl([FromBody] TagDto tag, long beislId)
         {
             var _beisl = await _beislService.AddTagToBeislAsync(tag, beislId);
@@ -94,6 +92,8 @@ namespace Jausentest.Web.Controllers
         }
 
         [HttpDelete("{beislId}/tags")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BeislDto>> DeleteTagFromBeisl([FromBody] TagDto tag, long beislId)
         {
             var _beisl = await _beislService.DeleteTagFromBeislAsync(tag, beislId);
@@ -112,13 +112,16 @@ namespace Jausentest.Web.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult> AddOrUpdateBeisl([FromBody] BeislDto beisl)
         {
             var _beisl = await _beislService.AddOrUpdateBeislAsync(beisl);
             return Created($"{HttpContext.Request.Path}/{_beisl.Id}", _beisl);
         }
 
+        
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult> AddBeisl([FromBody] BeislDto beisl)
         {
             var _beisl = await _beislService.AddBeislAsync(beisl);

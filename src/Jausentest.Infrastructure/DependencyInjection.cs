@@ -18,9 +18,7 @@ namespace Jausentest.Infrastructure
                 dbContextOptions => dbContextOptions
                     .UseMySql(
                         configuration.GetConnectionString("JausentestDbConnection"),
-                        new MySqlServerVersion(new Version(8, 0, 23)),
-                        mySqlOptions => mySqlOptions
-                            .CharSetBehavior(CharSetBehavior.NeverAppend))
+                        new MySqlServerVersion(new Version(8, 0, 23)))
                 // Everything from this point on is optional but helps with debugging.
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors()

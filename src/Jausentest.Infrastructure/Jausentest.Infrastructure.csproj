@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Jausentest.Domain\Jausentest.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations" />
+  </ItemGroup>
+
 </Project>

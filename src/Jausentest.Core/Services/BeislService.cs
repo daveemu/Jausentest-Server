@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jausentest.Core.Interfaces;
 
 namespace Jausentest.Core.Services
 {
@@ -57,8 +58,28 @@ namespace Jausentest.Core.Services
 
         public async Task<IEnumerable<TagDto>> GetTagsForBeislIdAsync(long beislId)
         {
-
             return _mapper.Map<IEnumerable<TagEntity>, IEnumerable<TagDto>>(await _beislRepository.GetTagsForBeislIdAsync(beislId));
         }
+        
+        public async Task<IEnumerable<RatingDto>> GetRatingsForBeislIdAsync(long beislId)
+        {
+            return _mapper.Map<IEnumerable<RatingEntity>, IEnumerable<RatingDto>>(
+                await _beislRepository.GetRatingsForBeislIdAsync(beislId));
+        }
+
+        public async Task<BeislDto> AddRatingToBeislAsync(RatingDto rating, long beislId)
+        {
+            var _beisl = await _beislRepository.AddRatingToBeislAsync(_mapper.Map<RatingDto, RatingEntity>(rating), beislId);
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
+        }
+
+        public async Task<BeislDto> DeleteRatingFromBeislAsync(RatingDto rating, long beislId)
+        {
+            var _beisl =
+                await _beislRepository.DeleteRatingFromBeislAsync(_mapper.Map<RatingDto, RatingEntity>(rating),
+                    beislId);
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
+        }
+        
     }
 }

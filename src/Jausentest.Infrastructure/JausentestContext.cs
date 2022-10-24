@@ -21,9 +21,17 @@ namespace Jausentest.Infrastructure
                 .UsingEntity(x => x.ToTable("BeislTags"))
                 .OwnsOne(a => a.Address);
 
+            modelBuilder.Entity<BeislEntity>()
+                .HasMany(b => b.Ratings)
+                .WithOne(r => r.Beisl);
+            
             modelBuilder
                 .Entity<TagEntity>()
                 .HasKey(t => t.Name);
+
+            modelBuilder
+                .Entity<RatingEntity>()
+                .HasKey(r => r.Id);
         }
 
         public JausentestContext(DbContextOptions<JausentestContext> options) : base(options)

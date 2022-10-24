@@ -19,7 +19,9 @@ namespace Jausentest.Core.Config
             CreateMap<BeislDto, BeislEntity>();
             CreateMap<TagDto, TagEntity>();
             CreateMap<AddressEntity, AddressDto>();
-            CreateMap<AddressDto, AddressEntity>(); 
+            CreateMap<AddressDto, AddressEntity>();
+            CreateMap<RatingEntity, RatingDto>();
+            CreateMap<RatingDto, RatingEntity>();
         }
 
     }

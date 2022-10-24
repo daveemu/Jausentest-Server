@@ -1,4 +1,5 @@
 using Jausentest.Core.Config;
+using Jausentest.Core.Interfaces;
 using Jausentest.Core.Services;
 using Jausentest.Domain.Interfaces;
 using Jausentest.Infrastructure;

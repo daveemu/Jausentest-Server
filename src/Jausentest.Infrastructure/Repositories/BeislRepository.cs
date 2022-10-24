@@ -17,7 +17,6 @@ namespace Jausentest.Infrastructure.Repositories
             _jausentestContext = jausentestContext ?? throw new ArgumentNullException(nameof(jausentestContext));
         }
 
-
         public async Task<BeislEntity> AddBeislAsync(BeislEntity beisl)
         {
             beisl.Id = 0;
@@ -31,14 +30,14 @@ namespace Jausentest.Infrastructure.Repositories
         {
 
 
-            //check if beisl is alreay in database
+            //check if beisl is already in database
             var existingBeisl = await _jausentestContext.Beisl
                 .Include(b => b.Tags)
                 .Include(b => b.Address)
                 .FirstOrDefaultAsync(_b => _b.Id == beisl.Id);
 
             
-            if(existingBeisl == null) //beisl doenst exist in db
+            if(existingBeisl == null) //beisl does not exist in db
             {
                 //if we add a new beisl, we have to check the appended tags
                 foreach (var tag in beisl.Tags)
@@ -158,7 +157,10 @@ namespace Jausentest.Infrastructure.Repositories
 
         public async Task<IEnumerable<BeislEntity>> GetAllAsync()
         {
-            return await _jausentestContext.Beisl.Include(b => b.Tags).ToListAsync();
+            return await _jausentestContext.Beisl
+                .Include(b => b.Tags)
+                .Include(b => b.Ratings)
+                .ToListAsync();
         }
 
         public async Task<BeislEntity> GetBeislByIdAsync(long beislId)
@@ -172,6 +174,50 @@ namespace Jausentest.Infrastructure.Repositories
                 .Include(b => b.Tags)
                 .FirstOrDefaultAsync(_b => _b.Id == beislId))
                 .Tags;
+        }
+
+        public async Task<IEnumerable<RatingEntity>> GetRatingsForBeislIdAsync(long beislId)
+        {
+            return (await _jausentestContext.Beisl
+                    .Include(b => b.Ratings)
+                    .FirstOrDefaultAsync(_b => _b.Id == beislId))
+                .Ratings;
+        }
+
+        public async Task<BeislEntity> AddRatingToBeislAsync(RatingEntity rating, long beislId)
+        {
+            var _beisl = await _jausentestContext.Beisl
+                .Include(b => b.Ratings)
+                .FirstOrDefaultAsync(b => b.Id == beislId);
+
+            if (_beisl == null)
+                return null;
+            
+            _beisl.Ratings.Add(rating);
+            await _jausentestContext.SaveChangesAsync();
+
+            return _beisl;
+        }
+        
+        public async Task<BeislEntity> DeleteRatingFromBeislAsync(RatingEntity rating, long beislId)
+        {
+            var _beisl = await _jausentestContext
+                .Beisl
+                .Include(b => b.Ratings)
+                .FirstOrDefaultAsync(b => b.Id == beislId);
+
+            if (_beisl == null)
+                return null;
+
+            var _rating = _beisl.Ratings.Where(r => r.Equals(rating));
+            
+            if(_rating != null)
+            {
+                _beisl.Ratings.Remove(_rating.First());
+                await _jausentestContext.SaveChangesAsync();
+            }
+
+            return _beisl;
         }
     }
 }

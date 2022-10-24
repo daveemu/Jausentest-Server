@@ -12,7 +12,7 @@ namespace Jausentest.Domain.Entities
         public string Name { get; set; }
         public string Owner { get; set; }
         public AddressEntity Address { get; set; }
-        public double Rating { get; set; }
+        public HashSet<RatingEntity> Ratings { get; set; }
         public HashSet<TagEntity> Tags { get; set; }
 
     }

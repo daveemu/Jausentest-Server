@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Jausentest.Core.Interfaces;
 
 namespace Jausentest.Web.Controllers
 {
@@ -70,6 +71,27 @@ namespace Jausentest.Web.Controllers
             return Ok(result);
 
         }
+        
+        [HttpGet("{beislId}/ratings")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<RatingDto>>> GetRatingsForBeislIdAsync(long beislId)
+        {
+            var result = await _beislService.GetRatingsForBeislIdAsync(beislId);
+
+            if (result == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Ok(result);
+
+        }
 
         [HttpPost("{beislId}/tags")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -90,6 +112,27 @@ namespace Jausentest.Web.Controllers
 
             return Created($"{HttpContext.Request.Path}/{beislId}", _beisl);
         }
+        
+        [HttpPost("{beislId}/ratings")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BeislDto>> AddTagToBeisl([FromBody] RatingDto rating, long beislId)
+        {
+            var _beisl = await _beislService.AddRatingToBeislAsync(rating, beislId);
+
+            if (_beisl == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Created($"{HttpContext.Request.Path}/{beislId}", _beisl);
+        }
+        
 
         [HttpDelete("{beislId}/tags")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -111,6 +154,26 @@ namespace Jausentest.Web.Controllers
             return Ok(_beisl);
         }
 
+        [HttpDelete("{beislId}/ratings")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BeislDto>> DeleteTagFromBeisl([FromBody] RatingDto rating, long beislId)
+        {
+            var _beisl = await _beislService.DeleteRatingFromBeislAsync(rating, beislId);
+
+            if (_beisl == null)
+            {
+                return NotFound(new ProblemDetails()
+                {
+                    Title = "Beisl not found",
+                    Detail = $"Beisl with id={beislId} was not found",
+                    Status = 404
+                });
+            }
+
+            return Ok(_beisl);
+        }
+        
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult> AddOrUpdateBeisl([FromBody] BeislDto beisl)

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Jausentest.Infrastructure\Jausentest.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images" />
+  </ItemGroup>
+
 </Project>

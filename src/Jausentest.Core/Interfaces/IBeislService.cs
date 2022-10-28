@@ -16,8 +16,6 @@ namespace Jausentest.Core.Interfaces
         public Task<IEnumerable<RatingDto>> GetRatingsForBeislIdAsync(long beislId);
         public Task<BeislDto> AddRatingToBeislAsync(RatingDto rating, long beislId);
         public Task<BeislDto> DeleteRatingFromBeislAsync(RatingDto rating, long beislId);
-        
-
-
+        public Task<BeislDto> AddImageToBeisl(ImageDto image, long beislId);
     }
 }

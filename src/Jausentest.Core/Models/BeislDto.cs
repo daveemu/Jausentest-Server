@@ -14,5 +14,6 @@ namespace Jausentest.Core.Models
         public AddressDto Address { get; set; }
         public HashSet<TagDto> Tags { get; set; }
         public HashSet<RatingDto> Ratings { get; set; }
+        public HashSet<ImageDto> Images { get; set; }
     }
 }

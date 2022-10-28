@@ -32,6 +32,10 @@ namespace Jausentest.Infrastructure
             modelBuilder
                 .Entity<RatingEntity>()
                 .HasKey(r => r.Id);
+
+            modelBuilder
+                .Entity<ImageEntity>()
+                .HasKey(i => i.Id);
         }
 
         public JausentestContext(DbContextOptions<JausentestContext> options) : base(options)

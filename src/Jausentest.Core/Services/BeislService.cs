@@ -80,6 +80,11 @@ namespace Jausentest.Core.Services
                     beislId);
             return _mapper.Map<BeislEntity, BeislDto>(_beisl);
         }
-        
+
+        public async Task<BeislDto> AddImageToBeisl(ImageDto image, long beislId)
+        {
+            var _beisl = await _beislRepository.AddImageToBeisl(_mapper.Map<ImageDto, ImageEntity>(image), beislId);
+            return _mapper.Map<BeislEntity, BeislDto>(_beisl);
+        }
     }
 }

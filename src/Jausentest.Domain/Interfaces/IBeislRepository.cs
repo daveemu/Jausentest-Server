@@ -20,7 +20,6 @@ namespace Jausentest.Domain.Interfaces
         public Task<BeislEntity> AddBeislAsync(BeislEntity beisl);
         public Task<BeislEntity> AddTagToBeislAsync(TagEntity tag, long beislId);
         public Task<BeislEntity> DeleteTagFromBeislAsync(TagEntity tag, long beislId);
-        
-
+        public Task<BeislEntity> AddImageToBeisl(ImageEntity imageName, long beislId);
     }
 }

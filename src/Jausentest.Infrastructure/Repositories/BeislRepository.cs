@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -155,11 +156,27 @@ namespace Jausentest.Infrastructure.Repositories
             return _beisl;
         }
 
+        public async Task<BeislEntity> AddImageToBeisl(ImageEntity image, long beislId)
+        {
+            var _beisl = await _jausentestContext.Beisl
+                .Include(b => b.Images)
+                .FirstOrDefaultAsync(b => b.Id == beislId);
+
+            if (_beisl != null)
+            {
+                _beisl.Images.Add(image);
+                await _jausentestContext.SaveChangesAsync();
+            }
+
+            return _beisl;  
+        }
+
         public async Task<IEnumerable<BeislEntity>> GetAllAsync()
         {
             return await _jausentestContext.Beisl
                 .Include(b => b.Tags)
                 .Include(b => b.Ratings)
+                .Include(b => b.Images)
                 .ToListAsync();
         }
 

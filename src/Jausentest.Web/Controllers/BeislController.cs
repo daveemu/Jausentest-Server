@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Jausentest.Core.Interfaces;
@@ -191,6 +192,58 @@ namespace Jausentest.Web.Controllers
             return Created($"{HttpContext.Request.Path}/{_beisl.Id}", _beisl);
         }
 
+
+        [HttpPost("{beislId}/image")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AddImageToBeisl([FromForm] IFormFile formFile, long beislId)
+        {
+
+            if (formFile == null)
+            {
+                return BadRequest(new ProblemDetails()
+                {
+                    Title = "Upload failed",
+                    Detail = "File or key parameter is not set correctly",
+                    Status = 400
+                });
+            }
+            try
+            {
+                string fileType = formFile.ContentType;
+                if (!fileType.Contains("image"))
+                {
+                    return BadRequest(new ProblemDetails()
+                    {
+                        Title = "Upload failed",
+                        Detail = "File type is not an image",
+                        Status = 400
+                    });
+                }
+                string uniqueFileName = Guid.NewGuid().ToString() + "." + fileType.Replace("image/", "");
+
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
+                await formFile.CopyToAsync(new FileStream(imagePath, FileMode.Create));
+
+                var image = new ImageDto()
+                {
+                    FileName = uniqueFileName
+                };
+                
+                await _beislService.AddImageToBeisl(image, beislId);
+                return Ok("Image Upload Successful");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ProblemDetails()
+                {
+                    Title = "Upload failed",
+                    Detail = e.Message,
+                    Status = 400
+                });
+            }
+            
+        }
 
     }
 }

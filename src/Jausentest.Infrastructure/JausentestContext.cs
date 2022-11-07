@@ -1,15 +1,15 @@
 ﻿using Jausentest.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using System;
 
 namespace Jausentest.Infrastructure
 {
-    public class JausentestContext : DbContext
+    public class JausentestContext : IdentityDbContext<UserEntity, UserRoleEntity, string>
     {
-
         public DbSet<BeislEntity> Beisl { get; set; }
         public DbSet<TagEntity> Tags { get; set; }
+        public DbSet<RatingEntity> Ratings { get; set; }
+        public DbSet<ImageEntity> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,11 @@ namespace Jausentest.Infrastructure
             modelBuilder
                 .Entity<ImageEntity>()
                 .HasKey(i => i.Id);
+
+            //Database seed for testing
+            modelBuilder.Seed();
+
+            
         }
 
         public JausentestContext(DbContextOptions<JausentestContext> options) : base(options)

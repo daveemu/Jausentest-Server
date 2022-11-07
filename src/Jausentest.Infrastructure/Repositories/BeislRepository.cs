@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Jausentest.Infrastructure.Repositories
@@ -177,6 +175,7 @@ namespace Jausentest.Infrastructure.Repositories
                 .Include(b => b.Tags)
                 .Include(b => b.Ratings)
                 .Include(b => b.Images)
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
@@ -228,7 +227,7 @@ namespace Jausentest.Infrastructure.Repositories
 
             var _rating = _beisl.Ratings.Where(r => r.Equals(rating));
             
-            if(_rating != null)
+            if(_rating.Any())
             {
                 _beisl.Ratings.Remove(_rating.First());
                 await _jausentestContext.SaveChangesAsync();

@@ -1,19 +1,18 @@
 ﻿using Jausentest.Core.Models;
-using Jausentest.Core.Services;
-using Jausentest.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Jausentest.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Jausentest.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class BeislController : ControllerBase
     {
         private readonly IBeislService _beislService;
